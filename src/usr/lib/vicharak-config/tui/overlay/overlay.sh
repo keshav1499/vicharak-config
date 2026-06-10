@@ -251,7 +251,7 @@ display_pinout(){
 		all_pins="vaaman_pins"
 	elif [[ $BOARD_NAME == "axon" ]]; then
 		all_pins="axon_pins"
-	elif [[ $BOARD_NAME="axon-lite" ]]; then
+	elif [[ $BOARD_NAME="lite" ]]; then
 		all_pins="axonlite_pins"
 	else
 		msgbox "You are trying to use a board which is not designed by Vicharak!!"
