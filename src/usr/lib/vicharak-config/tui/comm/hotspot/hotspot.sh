@@ -15,12 +15,12 @@ __hotspot_disable_recovery() {
 	msgbox "Recovery button hotspot disabled"
 }
 
-__hotspot_start_now() {
+__hotspot_manual() {
 	sudo "$HOTSPOT_SCRIPT"
 	msgbox "Hotspot started manually"
 }
 
-__hotspot_edit_credentials() {
+__hotspot_edit() {
 	SSID=$(inputbox "Enter SSID" "HOTSPOT")
 	PASS=$(inputbox "Enter Password (min 8 chars)" "12345678")
 
@@ -38,8 +38,8 @@ __hotspot_edit_credentials() {
 __hotspot() {
 	menu_init
 
-	menu_add __hotspot_recovery_enable  "Enable via Recovery Button"
-	menu_add __hotspot_recovery_disable "Disable Recovery Button"
+	menu_add __hotspot_enable_recovery  "Enable via Recovery Button"
+	menu_add __hotspot_disable_recovery "Disable Recovery Button"
 
 	menu_add __hotspot_manual           "Start Hotspot Now"
 	menu_add __hotspot_edit             "Edit Credentials"
