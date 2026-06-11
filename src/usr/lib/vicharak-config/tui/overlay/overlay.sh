@@ -162,6 +162,7 @@ vaaman_pins=(
 )
 
 #Array representing pin mapping according to Axon-lite GPIO documentation format
+# shellcheck disable=SC2034
 axonlite_pins=(
 "Function"	"Pin#"		"Pin#"		"Function"
 "5V"		"1"		"2"		"5V"
