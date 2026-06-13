@@ -22,6 +22,9 @@ if echo "$COMPATIBLE" | grep -qi rk3588; then
 elif echo "$COMPATIBLE" | grep -qi rk3399; then
     PROCESSOR="rk3399"
     SOC_VENDOR="rk"
+elif echo "$COMPATIBLE" | grep -qi rk3576; then
+    PROCESSOR="rk3576"
+    SOC_VENDOR="rk"
 else
     exit 1
 fi
@@ -33,6 +36,8 @@ if echo "$COMPATIBLE" | grep -qi axon; then
     DEVICE="axon"
 elif echo "$COMPATIBLE" | grep -qi vaaman; then
     DEVICE="vaaman"
+elif echo "$COMPATIBLE" | grep -qi axon-lite; then
+    DEVICE="axon-lite"
 else
     DEVICE="generic"
 fi
