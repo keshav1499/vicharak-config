@@ -1,6 +1,6 @@
 # shellcheck shell=bash
 
-HOTSPOT_SERVICE="vicharak-config.hotspot.service"
+HOTSPOT_SERVICE="vicharak-hotspot.service"
 HOTSPOT_SCRIPT="/usr/lib/vicharak-config/tui/comm/hotspot/start_hotspot.sh"
 
 __hotspot_enable_recovery() {
