@@ -255,7 +255,7 @@ display_pinout(){
 	elif [[ $BOARD_NAME == "lite" ]]; then
 		all_pins="axonlite_pins"
 	else
-		msgbox "You are trying to use a board which is not designed by Vicharak!!"
+		msgbox "You are trying to use a board that does not have GPIO Pins on header."
 		return
 	fi
 
