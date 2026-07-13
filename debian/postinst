@@ -1,55 +1,49 @@
 #!/bin/sh
 set -e
-
 BASE_URL="https://pkg.vicharak.in"
 LIST_FILE="/etc/apt/sources.list.d/vicharak.list"
 OS_RELEASE_FILE="/etc/os-release"
-
 # -------------------------
 # Detect hardware
 # -------------------------
 if [ ! -f /proc/device-tree/compatible ]; then
     exit 1
 fi
-
 # -------------------------
 # Detect processor
 # -------------------------
-COMPATIBLE="$(tr -d '\0' < /proc/device-tree/compatible) | grep -iqx ".*$1.*""
-
+COMPATIBLE="$(tr -d '\0' < /proc/device-tree/compatible)"
 if echo "$COMPATIBLE" | grep -qi rk3588; then
     PROCESSOR="rk3588"
     SOC_VENDOR="rk"
 elif echo "$COMPATIBLE" | grep -qi rk3399; then
     PROCESSOR="rk3399"
     SOC_VENDOR="rk"
+elif echo "$COMPATIBLE" | grep -qi rk3576; then
+    PROCESSOR="rk3576"
+    SOC_VENDOR="rk"
 else
     exit 1
 fi
-
 # -------------------------
 # Detect device
 # -------------------------
 case "$COMPATIBLE" in
     *"vicharak,rk3588-axon-cm-evb1"*) BOARD="axon-cm-evb1"; MODEL="axon-cm" ;;
     *"vicharak,rk3588-axon"*)         BOARD="axon";         MODEL="" ;;
+    *"vicharak,rk3576-axon-lite"*)    BOARD="axon-lite";    MODEL="" ;;
     *"vicharak,rk3399-vaaman"*)       BOARD="vaaman";       MODEL="" ;;
     *)                                BOARD="generic";      MODEL="" ;;
 esac
-
 OS_CODENAME=$(grep -E "^VERSION_CODENAME=" /etc/os-release | cut -d= -f2)
-
 # Build the device path segment: "$MODEL/$BOARD" if MODEL is set, else just "$BOARD"
 if [ -n "$MODEL" ]; then
     DEVICE_PATH="$MODEL/$BOARD"
 else
     DEVICE_PATH="$BOARD"
 fi
-
-
 if [ -f "$OS_RELEASE_FILE" ]; then
     OS_ID=$(grep -E "^ID=" "$OS_RELEASE_FILE" | cut -d= -f2 | tr -d '"')
-
     case "$OS_ID" in
         ubuntu)
             echo "System check: Running on Ubuntu."
@@ -71,8 +65,7 @@ cat > "$LIST_FILE" <<EOF
 # OS      : $OS_CODENAME
 # CPU     : $PROCESSOR
 # Device  : $BOARD
-# OS_ID	  : $OS_ID
-
+# OS_ID	 : $OS_ID
 deb $BASE_URL stable stable
 deb $BASE_URL stable-${SOC_VENDOR}main stable-rockchip/rkmain
 deb $BASE_URL stable-$PROCESSOR-main stable-rockchip/$PROCESSOR/main
@@ -80,7 +73,5 @@ deb $BASE_URL stable-$PROCESSOR-$BOARD-main stable-rockchip/$PROCESSOR/$DEVICE_P
 deb $BASE_URL stable-$PROCESSOR-$BOARD-$OS_ID-main stable-rockchip/$PROCESSOR/$DEVICE_PATH/$OS_ID/main
 deb $BASE_URL stable-$PROCESSOR-$BOARD-$OS_ID-$OS_CODENAME stable-rockchip/$PROCESSOR/$DEVICE_PATH/$OS_ID/$OS_CODENAME
 EOF
-
 apt update
-
 exit 0
