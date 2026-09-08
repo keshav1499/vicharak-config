@@ -191,13 +191,9 @@ parse_dtbo() {
 	if ! command -v yq >/dev/null 2>&1; then
 		output="null"
 	else
-		output="$(dtc -I dtb -O dts "$1" 2>/dev/null | dtc -I dts -O yaml 2>/dev/null | yq -r ".[0].metadata.$2[0]" 2>/dev/null | tr '\0' '\n')"
-
-		if [[ "${output}" == "null" || -z "${output}" ]]; then
-			output="$(dtc -I dtb -O dts "$1" 2>/dev/null | dtc -I dts -O yaml 2>/dev/null | yq -r ".[0][].__overlay__.metadata.$2[0]" 2>/dev/null | (grep -v '^null$' || true) | head -n1 | tr '\0' '\n')"
-			if [[ -z "${output}" ]]; then
-				output="null"
-			fi
+		output="$(dtc -I dtb -O dts "$1" 2>/dev/null | dtc -I dts -O yaml 2>/dev/null | yq -r ".. | .metadata? | select(. != null) | .[\"$2\"]? | select(. != null) | .[]" 2>/dev/null | tr '\0' '\n')"
+		if [[ -z "${output}" ]]; then
+			output="null"
 		fi
 	fi
 
