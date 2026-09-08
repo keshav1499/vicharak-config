@@ -1,3 +1,29 @@
+vicharak-config (0.1.21) stable; urgency=medium
+
+  * cli: u-boot-menu: Extract all metadata array elements at any depth
+  * tui: overlay: Fix metadata fallback and board name check
+  * cli: u-boot-menu: Fix parse_dtbo metadata parsing
+  * debian: Add yq to dependencies
+  * postinst refactored to Axon Lite
+  * tui: overlay: Update Error Handling message
+  * chore(apt): implement dynamic OS detection and dynamic board paths in APT sources.list.d
+  * build(deps): bump actions/checkout from 6 to 7
+  * Add support for rk3576 and axon-lite in postinst
+  * Rename hotspot service to vicharak-hotspot.service
+  * Add systemd service for vicharak-hotspot
+  * Add vicharak-hotspot.service configuration file
+  * Fix conditional check for BOARD_NAME variable
+  * Add axonlite_pins array for GPIO pin mapping
+  * Rename hotspot functions for clarity
+  * Fix conditional check for axon-lite board
+  * axon lite overlay pinout and gpio support enabled
+  * recovery key service and supporting scripts added
+  * build(deps): bump softprops/action-gh-release from 2 to 3
+  * build(deps): bump actions/upload-artifact from 6 to 7
+  * build(deps): bump actions/download-artifact from 7 to 8
+
+ -- keshav1499 <keshav1499@gmail.com>  Tue, 08 Sep 2026 16:36:16 +0530
+
 vicharak-config (0.1.20) jammy; urgency=medium
 
   * remove unwanted dependencies
