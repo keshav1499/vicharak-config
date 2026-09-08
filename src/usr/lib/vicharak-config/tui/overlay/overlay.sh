@@ -247,12 +247,12 @@ contains_gpio() {
 # Purpose: Determine the board type, select appropriate pin mapping, and display
 #          pinout with highlighted exclusive pins for selected overlays.
 display_pinout(){
-	BOARD_NAME=$(uname -a | awk '{print substr($4, 2)}');
+	BOARD_NAME=$(uname -a | awk '{print substr($2, 1)}');
 	if [[ $BOARD_NAME == "vaaman" ]]; then
 		all_pins="vaaman_pins"
 	elif [[ $BOARD_NAME == "axon" ]]; then
 		all_pins="axon_pins"
-	elif [[ $BOARD_NAME == "lite" ]]; then
+	elif [[ $BOARD_NAME == "lite" ]] || [[ $BOARD_NAME == "axon-lite" ]]; then
 		all_pins="axonlite_pins"
 	else
 		msgbox "You are trying to use a board that does not have GPIO Pins on header."
@@ -262,7 +262,7 @@ display_pinout(){
 	for i in "${VICHARAK_CONFIG_CHECKLIST_STATE_NEW[@]}"; do
 		item="$(checklist_getitem "$i")"
 
-		mapfile -t title < <(parse_dtbo "$U_BOOT_FDT_OVERLAYS_DIR/$item"* "title")
+		mapfile -t title < <(parse_dtbo "$U_BOOT_FDT_OVERLAYS_DIR/$item"* "title" "$(basename "$item")")
 		mapfile -t exclusive < <(parse_dtbo "$U_BOOT_FDT_OVERLAYS_DIR/$item"* "exclusive")
 
 		# Filter out "null" values from exclusive pins
