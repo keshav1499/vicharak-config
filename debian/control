@@ -17,9 +17,9 @@ Priority: standard
 Depends: device-tree-compiler,
          gdisk,
          parted,
-         rtk-hciattach,
          pkexec | policykit-1 (<< 122-1),
          whiptail,
+         yq,
          ${misc:Depends},
 Suggests: x-terminal-emulator
 Description: Vicharak system setup utility
